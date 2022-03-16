@@ -21,9 +21,17 @@ node {
             sh "${mvnHome}/bin/mvn sonar:sonar"
         }
     }    
+       stage("Quality Gate check"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+        }
+    }        
     stage('Tomcat-deployment') { // tomcat deployment
         sshagent(['ec2-user-1']) {
             sh "scp -o StrictHostKeyChecking=no target/tomcat-demo-new.war ec2-user@172.31.18.157:/opt/tomcat/webapps"
+            }
         }        
-    }    
+    }   
 }
