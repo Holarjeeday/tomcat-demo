@@ -1,7 +1,7 @@
 node {  
     def mvnHome = tool name: 'maven home', type: 'maven'
     stage('SCM-Checkout') { 
-        git branch: 'main', credentialsId: 'Git-credentials', url: 'https://github.com/Holarjeeday/tomcat-demo.git'
+        git branch: 'main', credentialsId: 'Git-Credentials', url: 'https://github.com/vikas99341/tomcat-demo.git'
     }
     stage('mvn-clean') { 
         sh "${mvnHome}/bin/mvn clean"
